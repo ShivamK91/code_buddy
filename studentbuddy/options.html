@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LeetMentor Options</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="leetmentor-options-container">
+    <h2>LeetMentor API Key Setup</h2>
+    <form id="api-key-form">
+      <label for="gemini-api-key">Google Gemini API Key:</label>
+      <input type="password" id="gemini-api-key" name="gemini-api-key" required style="width:100%;margin-bottom:10px;">
+      <button type="submit">Save API Key</button>
+    </form>
+    <div id="status-message" style="margin-top:10px;"></div>
+    <p style="margin-top:20px;font-size:0.95em;color:#888;">Your API key is stored securely in your browser and never shared.</p>
+  </div>
+  <script src="options.js"></script>
+</body>
+</html>
