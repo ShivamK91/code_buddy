@@ -1,6 +1,6 @@
-# LeetMentor Chrome Extension
+# CodeBuddy Chrome Extension
 
-A mentor-like Chrome extension that guides you step-by-step while solving coding problems on LeetCode, HackerRank, and Codeforces. Powered by Google Gemini API, LeetMentor provides progressive hints and only reveals the full solution when explicitly requested.
+A mentor-like Chrome extension that guides you step-by-step while solving coding problems on LeetCode, HackerRank, and Codeforces. Powered by Google Gemini API, CodeBuddy provides progressive hints and only reveals the full solution when explicitly requested.
 
 ---
 
@@ -17,20 +17,20 @@ A mentor-like Chrome extension that guides you step-by-step while solving coding
 ## Installation
 
 1. **Download & Unzip**
-   - Download this repository as a ZIP and unzip it to a folder (e.g., `LeetMentor/`).
+   - Download this repository as a ZIP and unzip it to a folder (e.g., `CodeBuddy/`).
    - All files, including icons, must be in the root of this folder (no subfolders).
 
 2. **Set Up Gemini API Key**
    - Get your [Google Gemini API key](https://aistudio.google.com/app/apikey).
    - Open Chrome and go to `chrome://extensions/`.
    - Enable "Developer mode" (top right).
-   - Click "Load unpacked" and select your `LeetMentor/` folder.
-   - Click "Details" on LeetMentor, then "Extension options".
+   - Click "Load unpacked" and select your `CodeBuddy/` folder.
+   - Click "Details" on CodeBuddy, then "Extension options".
    - Enter your Gemini API key and save.
 
 3. **Ready to Use!**
    - Visit a problem page on LeetCode, HackerRank, or Codeforces.
-   - The LeetMentor widget will appear in the bottom right.
+   - The CodeBuddy widget will appear in the bottom right.
 
 ---
 
@@ -51,19 +51,19 @@ A mentor-like Chrome extension that guides you step-by-step while solving coding
 ## File Structure (All files in root)
 
 ```
-LeetMentor/
-├── manifest.json
-├── popup.html
-├── popup.js
-├── content.js
+CodeBuddy/
 ├── background.js
-├── options.html
-├── options.js
-├── styles.css
+├── content.js
 ├── icon16.png
 ├── icon48.png
 ├── icon128.png
-└── README.md
+├── manifest.json
+├── options.html
+├── options.js
+├── popup.html
+├── popup.js
+├── README.md
+├── styles.css
 ```
 
 ---
@@ -119,7 +119,7 @@ LeetMentor/
 
 ## Deployment & Packaging
 
-- To update or share, zip the entire `LeetMentor/` folder (all files in root, no subfolders).
+- To update or share, zip the entire `CodeBuddy/` folder (all files in root, no subfolders).
 - Upload the ZIP in Chrome Extensions Developer Mode or share with others.
 
 ---

@@ -1,12 +1,12 @@
 {
     "manifest_version": 3,
-    "name": "Code Buddy",
+    "name": "CodeBuddy",
     "version": "1.0.0",
-    "description": "A mentor-like Chrome extension that guides users step-by-step on coding platforms like LeetCode.",
+    "description": "A mentor-like Chrome extension that guides users step-by-step on coding platforms like LeetCode, HackerRank, and Codeforces.",
     "icons": {
-      "16": "icons/icon16.png",
-      "48": "icons/icon48.png",
-      "128": "icons/icon128.png"
+      "16": "icon16.png",
+      "48": "icon48.png",
+      "128": "icon128.png"
     },
     "permissions": [
       "storage",
@@ -35,9 +35,9 @@
     "action": {
       "default_popup": "popup.html",
       "default_icon": {
-        "16": "icons/icon16.png",
-        "48": "icons/icon48.png",
-        "128": "icons/icon128.png"
+        "16": "icon16.png",
+        "48": "icon48.png",
+        "128": "icon128.png"
       }
     },
     "options_page": "options.html"
