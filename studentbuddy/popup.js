@@ -1,9 +1,9 @@
-// LeetMentor Popup Script
+// CodeBuddy Popup Script
 
 document.addEventListener('DOMContentLoaded', () => {
   // Tab switching logic
   const tabBtns = document.querySelectorAll('.tab-btn');
-  const tabContents = document.querySelectorAll('.leetmentor-tab-content');
+  const tabContents = document.querySelectorAll('.codebuddy-tab-content');
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       tabBtns.forEach(b => b.classList.remove('active'));
@@ -19,14 +19,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentTheme = document.documentElement.getAttribute('data-theme');
     if (currentTheme === 'dark') {
       document.documentElement.setAttribute('data-theme', '');
-      localStorage.setItem('leetmentor-theme', 'light');
+      localStorage.setItem('codebuddy-theme', 'light');
     } else {
       document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('leetmentor-theme', 'dark');
+      localStorage.setItem('codebuddy-theme', 'dark');
     }
   });
   // Set theme on load
-  if (localStorage.getItem('leetmentor-theme') === 'dark') {
+  if (localStorage.getItem('codebuddy-theme') === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
   }
 });

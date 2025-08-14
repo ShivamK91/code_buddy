@@ -1,4 +1,4 @@
-// LeetMentor Content Script
+// CodeBuddy Content Script
 // Detects supported sites, extracts problem info, and injects the floating widget
 
 (function() {
@@ -43,7 +43,7 @@
   if (!site) return;
 
   // Prevent multiple injections
-  if (document.getElementById('leetmentor-widget')) return;
+  if (document.getElementById('codebuddy-widget')) return;
 
   // Inject styles
   const style = document.createElement('link');
@@ -53,8 +53,8 @@
 
   // Inject widget container
   const widget = document.createElement('div');
-  widget.id = 'leetmentor-widget';
-  widget.className = 'leetmentor-widget';
+  widget.id = 'codebuddy-widget';
+  widget.className = 'codebuddy-widget';
   widget.style.zIndex = 99999;
   widget.style.position = 'fixed';
   widget.style.bottom = '40px';
@@ -66,25 +66,24 @@
   widget.style.boxShadow = '0 4px 24px rgba(0,0,0,0.18)';
   widget.style.userSelect = 'none';
   widget.innerHTML = `
-    <div class="leetmentor-header">
-      <span class="leetmentor-title">Code Buddy</span>
+    <div class="codebuddy-header">
+      <span class="codebuddy-title">CodeBuddy</span>
       <button id="theme-toggle" title="Toggle Light/Dark Mode">🌓</button>
     </div>
-    <div class="leetmentor-tabs">
+    <div class="codebuddy-tabs">
       <button class="tab-btn active" data-tab="hints">Hints</button>
       <button class="tab-btn" data-tab="solution">Solution</button>
       <button class="tab-btn" data-tab="history">History</button>
     </div>
-    <div class="leetmentor-tab-content" id="tab-hints">
+    <div class="codebuddy-tab-content" id="tab-hints">
       <div id="hints-list"></div>
-      <textarea id="manual-problem-desc" placeholder="Problem Description (optional)" style="width:100%;min-height:40px;margin-bottom:8px;resize:vertical;"></textarea>
       <button id="get-hint-btn">Get Hint</button>
     </div>
-    <div class="leetmentor-tab-content" id="tab-solution" style="display:none;">
+    <div class="codebuddy-tab-content" id="tab-solution" style="display:none;">
       <div id="solution-content"></div>
       <button id="reveal-solution-btn">Reveal Solution</button>
     </div>
-    <div class="leetmentor-tab-content" id="tab-history" style="display:none;">
+    <div class="codebuddy-tab-content" id="tab-history" style="display:none;">
       <div id="history-list"></div>
     </div>
   `;
@@ -93,7 +92,7 @@
   // Draggable logic
   let isDragging = false, offsetX = 0, offsetY = 0;
   widget.addEventListener('mousedown', function(e) {
-    if (e.target.closest('.leetmentor-header')) {
+    if (e.target.closest('.codebuddy-header')) {
       isDragging = true;
       offsetX = e.clientX - widget.getBoundingClientRect().left;
       offsetY = e.clientY - widget.getBoundingClientRect().top;
@@ -116,7 +115,7 @@
 
   // Tab switching logic
   const tabBtns = widget.querySelectorAll('.tab-btn');
-  const tabContents = widget.querySelectorAll('.leetmentor-tab-content');
+  const tabContents = widget.querySelectorAll('.codebuddy-tab-content');
   tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       tabBtns.forEach(b => b.classList.remove('active'));
@@ -135,27 +134,20 @@
     const currentTheme = document.documentElement.getAttribute('data-theme');
     if (currentTheme === 'dark') {
       document.documentElement.setAttribute('data-theme', '');
-      localStorage.setItem('leetmentor-theme', 'light');
+      localStorage.setItem('codebuddy-theme', 'light');
     } else {
       document.documentElement.setAttribute('data-theme', 'dark');
-      localStorage.setItem('leetmentor-theme', 'dark');
+      localStorage.setItem('codebuddy-theme', 'dark');
     }
   });
   // Set theme on load
-  if (localStorage.getItem('leetmentor-theme') === 'dark') {
+  if (localStorage.getItem('codebuddy-theme') === 'dark') {
     document.documentElement.setAttribute('data-theme', 'dark');
   }
 
   // Expose problem info for later use
-  const manualDescInput = widget.querySelector('#manual-problem-desc');
   function getCurrentProblem() {
-    const auto = site.getProblem();
-    // If auto-extracted statement is empty, use manual input
-    let statement = auto.statement;
-    if (!statement && manualDescInput && manualDescInput.value.trim()) {
-      statement = manualDescInput.value.trim();
-    }
-    return { ...auto, statement };
+    return site.getProblem();
   }
 
   // --- Hint Progression and Storage Logic ---
@@ -168,17 +160,17 @@
   // Load hint history from chrome.storage
   function loadHistory() {
     const problem = getCurrentProblem();
-    const key = `leetmentor-history-${problem.title}`;
+    const key = `codebuddy-history-${problem.title}`;
     chrome.storage.local.get([key], (result) => {
       const history = result[key] || [];
-      historyList.innerHTML = history.map((h, i) => `<div class="leetmentor-history-item"><b>Hint ${i+1}:</b> ${h}</div>`).join('');
+      historyList.innerHTML = history.map((h, i) => `<div class="codebuddy-history-item"><b>Hint ${i+1}:</b> ${h}</div>`).join('');
     });
   }
 
   // Add a hint to history in chrome.storage
   function saveHint(hint) {
     const problem = getCurrentProblem();
-    const key = `leetmentor-history-${problem.title}`;
+    const key = `codebuddy-history-${problem.title}`;
     chrome.storage.local.get([key], (result) => {
       const history = result[key] || [];
       history.push(hint);
@@ -188,39 +180,14 @@
 
   // Display hints in the Hints tab
   function displayHint(hint) {
-    hintsList.innerHTML += `<div class="leetmentor-hint-item">${hint}</div>`;
-  }
-
-  function displayHintChat(userMsg, extMsg) {
-    const chatDiv = document.createElement('div');
-    chatDiv.className = 'leetmentor-hint-chat';
-    if (userMsg) {
-      const userDiv = document.createElement('div');
-      userDiv.className = 'leetmentor-hint-msg user';
-      userDiv.textContent = userMsg;
-      chatDiv.appendChild(userDiv);
-    }
-    if (extMsg) {
-      const extDiv = document.createElement('div');
-      extDiv.className = 'leetmentor-hint-msg ext';
-      // Prefix with 'Code Buddy: '
-      extDiv.textContent = 'Code Buddy: ' + extMsg;
-      chatDiv.appendChild(extDiv);
-    }
-    hintsList.appendChild(chatDiv);
-    hintsList.scrollTop = hintsList.scrollHeight;
+    hintsList.innerHTML += `<div class="codebuddy-hint-item">${hint}</div>`;
   }
 
   // Handle Get Hint button
   getHintBtn.addEventListener('click', () => {
     const problem = getCurrentProblem();
     const userCode = problem.code;
-    if (!problem.statement) {
-      displayHintChat('User asked for a hint', 'Please enter the problem description above.');
-      return;
-    }
-    displayHintChat('User asked for a hint', 'Loading hint...');
-    let responded = false;
+    hintsList.innerHTML += '<div class="codebuddy-hint-item">Loading hint...</div>';
     chrome.runtime.sendMessage({
       type: 'GEMINI_HINT',
       problem,
@@ -228,27 +195,14 @@
       context: '',
       mode: 'hint'
     }, (response) => {
-      responded = true;
-      // Remove the last chat (loading)
-      if (hintsList.lastChild) hintsList.removeChild(hintsList.lastChild);
-      if (chrome.runtime.lastError) {
-        displayHintChat('User asked for a hint', 'Error: ' + chrome.runtime.lastError.message);
-        return;
-      }
+      hintsList.lastChild.remove(); // Remove loading
       if (response && response.result) {
-        displayHintChat('User asked for a hint', response.result);
+        displayHint(response.result);
         saveHint(response.result);
       } else {
-        displayHintChat('User asked for a hint', response?.error || 'Error getting hint.');
+        displayHint(response?.error || 'Error getting hint.');
       }
     });
-    // Fallback in case callback is never called
-    setTimeout(() => {
-      if (!responded) {
-        if (hintsList.lastChild) hintsList.removeChild(hintsList.lastChild);
-        displayHintChat('User asked for a hint', 'Error: No response from background script.');
-      }
-    }, 5000);
   });
 
   // Handle Reveal Solution button

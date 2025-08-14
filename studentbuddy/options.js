@@ -1,4 +1,4 @@
-// LeetMentor Options Script
+// CodeBuddy Options Script
 // Handles saving/loading Gemini API key
 
 document.addEventListener('DOMContentLoaded', () => {
