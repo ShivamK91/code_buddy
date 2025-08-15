@@ -77,6 +77,7 @@
     </div>
     <div class="codebuddy-tab-content" id="tab-hints">
       <div id="hints-list"></div>
+      <textarea id="manual-problem-desc" placeholder="Paste problem description here if not detected automatically..." style="width:100%;min-height:40px;margin-bottom:8px;resize:vertical;display:none;"></textarea>
       <button id="get-hint-btn">Get Hint</button>
     </div>
     <div class="codebuddy-tab-content" id="tab-solution" style="display:none;">
@@ -145,9 +146,19 @@
     document.documentElement.setAttribute('data-theme', 'dark');
   }
 
-  // Expose problem info for later use
+  // Expose problem info for later use, with manual fallback
   function getCurrentProblem() {
-    return site.getProblem();
+    const auto = site.getProblem();
+    let statement = auto.statement;
+    const manualDescInput = widget.querySelector('#manual-problem-desc');
+    // If auto-extracted statement is empty, show textarea and use its value
+    if (!statement) {
+      manualDescInput.style.display = '';
+      statement = manualDescInput.value.trim();
+    } else {
+      manualDescInput.style.display = 'none';
+    }
+    return { ...auto, statement };
   }
 
   // --- Hint Progression and Storage Logic ---
@@ -187,6 +198,10 @@
   getHintBtn.addEventListener('click', () => {
     const problem = getCurrentProblem();
     const userCode = problem.code;
+    if (!problem.statement) {
+      displayHint('Please enter the problem description above.');
+      return;
+    }
     hintsList.innerHTML += '<div class="codebuddy-hint-item">Loading hint...</div>';
     chrome.runtime.sendMessage({
       type: 'GEMINI_HINT',
@@ -209,6 +224,10 @@
   revealSolutionBtn.addEventListener('click', () => {
     const problem = getCurrentProblem();
     const userCode = problem.code;
+    if (!problem.statement) {
+      solutionContent.innerText = 'Please enter the problem description above.';
+      return;
+    }
     solutionContent.innerHTML = 'Loading solution...';
     chrome.runtime.sendMessage({
       type: 'GEMINI_SOLUTION',
