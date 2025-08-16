@@ -1,6 +1,7 @@
 // CodeBuddy Popup Script
 
 document.addEventListener('DOMContentLoaded', () => {
+  const widget = document.getElementById('codebuddy-widget');
   // Tab switching logic
   const tabBtns = document.querySelectorAll('.tab-btn');
   const tabContents = document.querySelectorAll('.codebuddy-tab-content');
@@ -16,17 +17,17 @@ document.addEventListener('DOMContentLoaded', () => {
   // Theme toggle logic
   const themeToggle = document.getElementById('theme-toggle');
   themeToggle.addEventListener('click', () => {
-    const currentTheme = document.documentElement.getAttribute('data-theme');
+    const currentTheme = widget.getAttribute('data-theme');
     if (currentTheme === 'dark') {
-      document.documentElement.setAttribute('data-theme', '');
+      widget.setAttribute('data-theme', '');
       localStorage.setItem('codebuddy-theme', 'light');
     } else {
-      document.documentElement.setAttribute('data-theme', 'dark');
+      widget.setAttribute('data-theme', 'dark');
       localStorage.setItem('codebuddy-theme', 'dark');
     }
   });
   // Set theme on load
   if (localStorage.getItem('codebuddy-theme') === 'dark') {
-    document.documentElement.setAttribute('data-theme', 'dark');
+    widget.setAttribute('data-theme', 'dark');
   }
 });

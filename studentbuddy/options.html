@@ -7,8 +7,11 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div class="codebuddy-options-container">
-    <h2>CodeBuddy API Key Setup</h2>
+  <div class="codebuddy-options-container" id="codebuddy-options-container">
+    <div style="display:flex;justify-content:space-between;align-items:center;">
+      <h2>CodeBuddy API Key Setup</h2>
+      <button id="options-theme-toggle" title="Toggle Light/Dark Mode">🌓</button>
+    </div>
     <form id="api-key-form">
       <label for="gemini-api-key">Google Gemini API Key:</label>
       <input type="password" id="gemini-api-key" name="gemini-api-key" required style="width:100%;margin-bottom:10px;">

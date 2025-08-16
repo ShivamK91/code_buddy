@@ -78,7 +78,7 @@
   --lm-accent: #4f8cff;
   --lm-accent-hover: #2563eb;
 }
-[data-theme="dark"] {
+.codebuddy-widget[data-theme="dark"] {
   --lm-bg: #23272f;
   --lm-text: #f3f3f3;
   --lm-border: #333a44;
@@ -131,6 +131,13 @@
 }
 .codebuddy-options-container button[type="submit"]:hover {
   background: var(--lm-accent-hover);
+}
+.codebuddy-options-container[data-theme="dark"] {
+  --lm-bg: #23272f;
+  --lm-text: #f3f3f3;
+  --lm-border: #333a44;
+  --lm-accent: #4f8cff;
+  --lm-accent-hover: #2563eb;
 }
 /* Chat styles */
 .codebuddy-hint-chat {
